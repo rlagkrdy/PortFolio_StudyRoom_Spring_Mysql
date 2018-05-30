@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Usr">
+
+	<select id="Usr.list" resultType="hashmap" parameterType="hashmap">
+		SELECT *, 
+			DATE_FORMAT(USR_CREATE, '%Y-%m-%d') AS USR_CREATE_NM,
+			DATE_FORMAT(USR_DELETE_DATE, '%Y-%m-%d') AS USR_DELETE_DATE_NM
+		FROM
+		y_usr
+		<where>
+			<if test="USR_KEY != null and USR_KEY !='' "> AND USR_KEY = #{USR_KEY}</if>
+			<if test="USR_ID != null and USR_ID !='' "> AND USR_ID = #{USR_ID}</if>
+			<if test="USR_NAME != null and USR_NAME !='' "> AND USR_NAME = #{USR_NAME}</if>
+			<if test="USR_EMAIL != null and USR_EMAIL !='' "> AND USR_EMAIL = #{USR_EMAIL}</if>
+			<if test="USR_TEL != null and USR_TEL !='' "> AND USR_TEL = #{USR_TEL}</if>
+			<if test="USR_STATE != null and USR_STATE !='' "> AND USR_STATE = #{USR_STATE}</if>
+			<if test="USR_SNS_WAY != null and USR_SNS_WAY !='' "> AND USR_SNS_WAY = #{USR_SNS_WAY}</if>
+			<if test="USR_CHECK_EMAIL != null and USR_CHECK_EMAIL !='' "> AND USR_CHECK_EMAIL = #{USR_CHECK_EMAIL}</if>
+			<if test="USR_FCM != null and USR_FCM !='' "> AND USR_FCM = #{USR_FCM}</if>
+
+			<if test="USR_CREATE_ST != null and USR_CREATE_ST !='' ">
+				AND DATE(USR_CREATE) <![CDATA[>]]>=
+				#{USR_CREATE_ST}
+			</if>
+			<if test="USR_CREATE_ED != null and USR_CREATE_ED !='' ">
+				AND DATE(USR_CREATE) <![CDATA[<]]>=
+				#{USR_CREATE_ED}
+			</if>
+
+			<if test="KEYWORD != null and KEYWORD !='' ">AND (USR_NAME LIKE CONCAT(#{KEYWORD}, '%') OR USR_TEL
+				LIKE CONCAT(#{KEYWORD}, '%'))</if>
+
+		</where>
+		ORDER BY USR_KEY DESC
+	</select>
+
+	<select id="Usr.info" resultType="hashmap" parameterType="hashmap">
+		SELECT *,
+			DATE_FORMAT(USR_CREATE, '%Y-%m-%d') AS USR_CREATE_NM,
+			DATE_FORMAT(USR_DELETE_DATE, '%Y-%m-%d') AS USR_DELETE_DATE_NM
+		FROM y_usr WHERE USR_KEY = #{USR_KEY}
+	</select>
+
+	<insert id="Usr.insert" parameterType="hashmap">
+		INSERT INTO y_usr
+		<set>
+			USR_CREATE = NOW(),
+			<if test="USR_ID != null and USR_ID !='' "> USR_ID = #{USR_ID},</if>
+			<if test="USR_NAME != null and USR_NAME !='' "> USR_NAME = #{USR_NAME},</if>
+			<if test="USR_EMAIL != null and USR_EMAIL !='' "> USR_EMAIL = #{USR_EMAIL},</if>
+			<if test="USR_TEL != null and USR_TEL !='' "> USR_TEL = #{USR_TEL},</if>
+			<if test="USR_STATE != null and USR_STATE !='' "> USR_STATE = #{USR_STATE},</if>
+			<if test="USR_SNS_WAY != null and USR_SNS_WAY !='' "> USR_SNS_WAY = #{USR_SNS_WAY},</if>
+			<if test="USR_CHECK_EMAIL != null and USR_CHECK_EMAIL !='' "> USR_CHECK_EMAIL = #{USR_CHECK_EMAIL},</if>
+			<if test="USR_FCM != null and USR_FCM !='' "> USR_FCM = #{USR_FCM},</if>
+		</set>
+	</insert>
+
+	<update id="Usr.update" parameterType="hashmap">
+		UPDATE y_usr
+		<set>
+			<if test="USR_KEY != null and USR_KEY !='' "> USR_KEY = #{USR_KEY},</if>
+			<if test="USR_ID != null and USR_ID !='' "> USR_ID = #{USR_ID},</if>
+			<if test="USR_NAME != null and USR_NAME !='' "> USR_NAME = #{USR_NAME},</if>
+			<if test="USR_EMAIL != null and USR_EMAIL !='' "> USR_EMAIL = #{USR_EMAIL},</if>
+			<if test="USR_TEL != null and USR_TEL !='' "> USR_TEL = #{USR_TEL},</if>
+			<if test="USR_STATE != null and USR_STATE !='' "> USR_STATE = #{USR_STATE},</if>
+			<if test="USR_CREATE != null and USR_CREATE !='' "> USR_CREATE = #{USR_CREATE},</if>
+			<if test="USR_SNS_WAY != null and USR_SNS_WAY !='' "> USR_SNS_WAY = #{USR_SNS_WAY},</if>
+			<if test="USR_CHECK_EMAIL != null and USR_CHECK_EMAIL !='' "> USR_CHECK_EMAIL = #{USR_CHECK_EMAIL},</if>
+			<if test="USR_FCM != null and USR_FCM !='' "> USR_FCM = #{USR_FCM},</if>
+			<if test="USR_DELETE_DATE != null and USR_DELETE_DATE !='' "> USR_DELETE_DATE = NOW(),</if>
+
+		</set>
+		WHERE USR_KEY = #{USR_KEY}
+	</update>
+
+	<delete id="Usr.delete" parameterType="hashmap">
+		DELETE FROM y_usr WHERE USR_KEY = #{USR_KEY}
+	</delete>
+
+</mapper>

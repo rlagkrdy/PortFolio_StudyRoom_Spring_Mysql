@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Media">
+
+    <select id="Media.list" resultType="hashmap" parameterType="hashmap" >
+        SELECT * FROM y_media
+        <where>
+        	<if test="MEDIA_KEY != null and MEDIA_KEY !='' "> AND MEDIA_KEY = #{MEDIA_KEY}</if>
+			<if test="MEDIA_REF_KEY != null and MEDIA_REF_KEY !='' "> AND MEDIA_REF_KEY = #{MEDIA_REF_KEY}</if>
+			<if test="MEDIA_REF_CATE != null and MEDIA_REF_CATE !='' "> AND MEDIA_REF_CATE = #{MEDIA_REF_CATE}</if>
+			<if test="MEDIA_WIDTH != null and MEDIA_WIDTH !='' "> AND MEDIA_WIDTH = #{MEDIA_WIDTH}</if>
+			<if test="MEDIA_HEIGHT != null and MEDIA_HEIGHT !='' "> AND MEDIA_HEIGHT = #{MEDIA_HEIGHT}</if>
+			<if test="MEDIA_RATE != null and MEDIA_RATE !='' "> AND MEDIA_RATE = #{MEDIA_RATE}</if>
+			<if test="MEDIA_EXT != null and MEDIA_EXT !='' "> AND MEDIA_EXT = #{MEDIA_EXT}</if>
+			<if test="MEDIA_URL != null and MEDIA_URL !='' "> AND MEDIA_URL = #{MEDIA_URL}</if>
+			<if test="MEDIA_ORI_URL != null and MEDIA_ORI_URL !='' "> AND MEDIA_ORI_URL = #{MEDIA_ORI_URL}</if>
+			<if test="MEDIA_CREATE != null and MEDIA_CREATE !='' "> AND MEDIA_CREATE = #{MEDIA_CREATE}</if>
+			
+        </where>
+        ORDER BY media_KEY DESC
+    </select>
+    
+    <select id="Media.totalCount" resultType="hashmap" parameterType="hashmap" >
+        SELECT COUNT(*) FROM y_media
+        <where>
+			<if test="MEDIA_KEY != null and MEDIA_KEY !='' "> AND MEDIA_KEY = #{MEDIA_KEY}</if>
+			<if test="MEDIA_REF_KEY != null and MEDIA_REF_KEY !='' "> AND MEDIA_REF_KEY = #{MEDIA_REF_KEY}</if>
+			<if test="MEDIA_REF_CATE != null and MEDIA_REF_CATE !='' "> AND MEDIA_REF_CATE = #{MEDIA_REF_CATE}</if>
+			<if test="MEDIA_WIDTH != null and MEDIA_WIDTH !='' "> AND MEDIA_WIDTH = #{MEDIA_WIDTH}</if>
+			<if test="MEDIA_HEIGHT != null and MEDIA_HEIGHT !='' "> AND MEDIA_HEIGHT = #{MEDIA_HEIGHT}</if>
+			<if test="MEDIA_RATE != null and MEDIA_RATE !='' "> AND MEDIA_RATE = #{MEDIA_RATE}</if>
+			<if test="MEDIA_EXT != null and MEDIA_EXT !='' "> AND MEDIA_EXT = #{MEDIA_EXT}</if>
+			<if test="MEDIA_URL != null and MEDIA_URL !='' "> AND MEDIA_URL = #{MEDIA_URL}</if>
+			<if test="MEDIA_ORI_URL != null and MEDIA_ORI_URL !='' "> AND MEDIA_ORI_URL = #{MEDIA_ORI_URL}</if>
+			<if test="MEDIA_CREATE != null and MEDIA_CREATE !='' "> AND MEDIA_CREATE = #{MEDIA_CREATE}</if>
+			
+        </where>
+        ORDER BY media_KEY DESC
+    </select>
+    
+    <select id="Media.info" resultType="hashmap" parameterType="hashmap" >
+        SELECT * FROM y_media WHERE media_KEY = #{media_KEY}
+    </select>
+    
+    <insert id="Media.insert" parameterType="hashmap" >
+    	INSERT INTO y_media 
+    	<set>
+      		<if test="MEDIA_REF_KEY != null and MEDIA_REF_KEY !='' "> MEDIA_REF_KEY = #{MEDIA_REF_KEY},</if>
+			<if test="MEDIA_REF_CATE != null and MEDIA_REF_CATE !='' "> MEDIA_REF_CATE = #{MEDIA_REF_CATE},</if>
+			<if test="MEDIA_WIDTH != null and MEDIA_WIDTH !='' "> MEDIA_WIDTH = #{MEDIA_WIDTH},</if>
+			<if test="MEDIA_HEIGHT != null and MEDIA_HEIGHT !='' "> MEDIA_HEIGHT = #{MEDIA_HEIGHT},</if>
+			<if test="MEDIA_RATE != null and MEDIA_RATE !='' "> MEDIA_RATE = #{MEDIA_RATE},</if>
+			<if test="MEDIA_EXT != null and MEDIA_EXT !='' "> MEDIA_EXT = #{MEDIA_EXT},</if>
+			<if test="MEDIA_URL != null and MEDIA_URL !='' "> MEDIA_URL = #{MEDIA_URL},</if>
+			<if test="MEDIA_ORI_URL != null and MEDIA_ORI_URL !='' "> MEDIA_ORI_URL = #{MEDIA_ORI_URL},</if>
+			<if test="MEDIA_CREATE != null and MEDIA_CREATE !='' "> MEDIA_CREATE = #{MEDIA_CREATE},</if>
+			
+      	</set>	
+    </insert>
+    
+    <update id="Media.update" parameterType="hashmap" >
+    	UPDATE y_media 
+    	<set>
+      		<if test="MEDIA_KEY != null and MEDIA_KEY !='' "> MEDIA_KEY = #{MEDIA_KEY},</if>
+			<if test="MEDIA_REF_KEY != null and MEDIA_REF_KEY !='' "> MEDIA_REF_KEY = #{MEDIA_REF_KEY},</if>
+			<if test="MEDIA_REF_CATE != null and MEDIA_REF_CATE !='' "> MEDIA_REF_CATE = #{MEDIA_REF_CATE},</if>
+			<if test="MEDIA_WIDTH != null and MEDIA_WIDTH !='' "> MEDIA_WIDTH = #{MEDIA_WIDTH},</if>
+			<if test="MEDIA_HEIGHT != null and MEDIA_HEIGHT !='' "> MEDIA_HEIGHT = #{MEDIA_HEIGHT},</if>
+			<if test="MEDIA_RATE != null and MEDIA_RATE !='' "> MEDIA_RATE = #{MEDIA_RATE},</if>
+			<if test="MEDIA_EXT != null and MEDIA_EXT !='' "> MEDIA_EXT = #{MEDIA_EXT},</if>
+			<if test="MEDIA_URL != null and MEDIA_URL !='' "> MEDIA_URL = #{MEDIA_URL},</if>
+			<if test="MEDIA_ORI_URL != null and MEDIA_ORI_URL !='' "> MEDIA_ORI_URL = #{MEDIA_ORI_URL},</if>
+			<if test="MEDIA_CREATE != null and MEDIA_CREATE !='' "> MEDIA_CREATE = #{MEDIA_CREATE},</if>
+			
+      	</set>	
+      	WHERE media_KEY = #{media_KEY}
+    </update>
+    
+    <delete id="Media.delete" parameterType="hashmap" >
+    	DELETE FROM y_media WHERE media_KEY = #{media_KEY}
+    </delete>
+    
+</mapper>
