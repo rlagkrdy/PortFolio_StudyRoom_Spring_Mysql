@@ -3,16 +3,16 @@
 
 <mapper namespace="Reserv">
 
-    <select id="Reserv.list" resultType="hashmap" parameterType="hashmap" >
-        SELECT 
-        	*,
-        	DATE_FORMAT(RESERV_DATE, '%Y-%m-%d') AS RESERV_DATE_NM,
-        	DATE_FORMAT(RESERV_TIME, '%H:%i') AS RESERV_TIME_NM,
-			DATE_FORMAT(RESERV_CREATE, '%Y-%m-%d') AS RESERV_CREATE_NM 
-        FROM y_reserv res
-        LEFT JOIN y_room ro ON ro.ROOM_KEY = res.ROOM_KEY
-        <where>
-        	<if test="RESERV_KEY != null and RESERV_KEY !='' "> AND RESERV_KEY = #{RESERV_KEY}</if>
+	<select id="Reserv.list" resultType="hashmap" parameterType="hashmap">
+		SELECT
+		*,
+		DATE_FORMAT(RESERV_DATE, '%Y-%m-%d') AS RESERV_DATE_NM,
+		DATE_FORMAT(RESERV_TIME, '%H:%i') AS RESERV_TIME_NM,
+		DATE_FORMAT(RESERV_CREATE, '%Y-%m-%d') AS RESERV_CREATE_NM
+		FROM y_reserv res
+		LEFT JOIN y_room ro ON ro.ROOM_KEY = res.ROOM_KEY
+		<where>
+			<if test="RESERV_KEY != null and RESERV_KEY !='' "> AND RESERV_KEY = #{RESERV_KEY}</if>
 			<if test="ROOM_KEY != null and ROOM_KEY !='' "> AND ROOM_KEY = #{ROOM_KEY}</if>
 			<if test="USR_KEY != null and USR_KEY !='' "> AND USR_KEY = #{USR_KEY}</if>
 			<if test="COMP_KEY != null and COMP_KEY !='' "> AND COMP_KEY = #{COMP_KEY}</if>
@@ -23,8 +23,8 @@
 			<if test="RESERV_USR_NUM != null and RESERV_USR_NUM !='' "> AND RESERV_USR_NUM = #{RESERV_USR_NUM}</if>
 			<if test="RESERV_STATE != null and RESERV_STATE !='' "> AND RESERV_STATE = #{RESERV_STATE}</if>
 			<if test="RESERV_CREATE != null and RESERV_CREATE !='' "> AND RESERV_CREATE = #{RESERV_CREATE}</if>
-			<if test="COMP_DETAIL_ADDR != null and COMP_DETAIL_ADDR !='' "> AND COMP_DETAIL_ADDR = #{COMP_DETAIL_ADDR}</if>
-			
+			<if test="RESERV_MODI != null and RESERV_MODI !='' "> AND RESERV_MODI = #{RESERV_MODI}</if>
+
 			<if test="RESERV_DATE_ST != null and RESERV_DATE_ST !='' ">
 				AND DATE(RESERV_DATE) <![CDATA[>]]>=
 				#{RESERV_DATE_ST}
@@ -33,19 +33,19 @@
 				AND DATE(RESERV_DATE) <![CDATA[<]]>=
 				#{RESERV_DATE_ED}
 			</if>
-        </where>
-        ORDER BY RESERV_KEY DESC
-    </select>
-    
-    <select id="Reserv.info" resultType="hashmap" parameterType="hashmap" >
-        SELECT * FROM y_reserv WHERE RESERV_KEY = #{RESERV_KEY}
-    </select>
-    
-    <insert id="Reserv.insert" parameterType="hashmap" >
-    	INSERT INTO y_reserv 
-    	<set>
-    		RESERV_CREATE = NOW(),
-      		<if test="ROOM_KEY != null and ROOM_KEY !='' "> ROOM_KEY = #{ROOM_KEY},</if>
+		</where>
+		ORDER BY RESERV_KEY DESC
+	</select>
+
+	<select id="Reserv.info" resultType="hashmap" parameterType="hashmap">
+		SELECT * FROM y_reserv WHERE RESERV_KEY = #{RESERV_KEY}
+	</select>
+
+	<insert id="Reserv.insert" parameterType="hashmap">
+		INSERT INTO y_reserv
+		<set>
+			RESERV_CREATE = NOW(),
+			<if test="ROOM_KEY != null and ROOM_KEY !='' "> ROOM_KEY = #{ROOM_KEY},</if>
 			<if test="USR_KEY != null and USR_KEY !='' "> USR_KEY = #{USR_KEY},</if>
 			<if test="COMP_KEY != null and COMP_KEY !='' "> COMP_KEY = #{COMP_KEY},</if>
 			<if test="RESERV_DATE != null and RESERV_DATE !='' "> RESERV_DATE = #{RESERV_DATE},</if>
@@ -54,14 +54,14 @@
 			<if test="RESERV_USR_TEL != null and RESERV_USR_TEL !='' "> RESERV_USR_TEL = #{RESERV_USR_TEL},</if>
 			<if test="RESERV_USR_NUM != null and RESERV_USR_NUM !='' "> RESERV_USR_NUM = #{RESERV_USR_NUM},</if>
 			<if test="RESERV_STATE != null and RESERV_STATE !='' "> RESERV_STATE = #{RESERV_STATE},</if>
-			<if test="COMP_DETAIL_ADDR != null and COMP_DETAIL_ADDR !='' "> COMP_DETAIL_ADDR = #{COMP_DETAIL_ADDR},</if>
-      	</set>	
-    </insert>
-    
-    <update id="Reserv.update" parameterType="hashmap" >
-    	UPDATE y_reserv 
-    	<set>
-      		<if test="RESERV_KEY != null and RESERV_KEY !='' "> RESERV_KEY = #{RESERV_KEY},</if>
+			<if test="RESERV_MODI != null and RESERV_MODI !='' "> RESERV_MODI = #{RESERV_MODI},</if>
+		</set>
+	</insert>
+
+	<update id="Reserv.update" parameterType="hashmap">
+		UPDATE y_reserv
+		<set>
+			<if test="RESERV_KEY != null and RESERV_KEY !='' "> RESERV_KEY = #{RESERV_KEY},</if>
 			<if test="ROOM_KEY != null and ROOM_KEY !='' "> ROOM_KEY = #{ROOM_KEY},</if>
 			<if test="USR_KEY != null and USR_KEY !='' "> USR_KEY = #{USR_KEY},</if>
 			<if test="COMP_KEY != null and COMP_KEY !='' "> COMP_KEY = #{COMP_KEY},</if>
@@ -72,13 +72,13 @@
 			<if test="RESERV_USR_NUM != null and RESERV_USR_NUM !='' "> RESERV_USR_NUM = #{RESERV_USR_NUM},</if>
 			<if test="RESERV_STATE != null and RESERV_STATE !='' "> RESERV_STATE = #{RESERV_STATE},</if>
 			<if test="RESERV_CREATE != null and RESERV_CREATE !='' "> RESERV_CREATE = #{RESERV_CREATE},</if>
-			<if test="COMP_DETAIL_ADDR != null and COMP_DETAIL_ADDR !='' "> COMP_DETAIL_ADDR = #{COMP_DETAIL_ADDR},</if>
-      	</set>	
-      	WHERE RESERV_KEY = #{RESERV_KEY}
-    </update>
-    
-    <delete id="Reserv.delete" parameterType="hashmap" >
-    	DELETE FROM y_reserv WHERE RESERV_KEY = #{RESERV_KEY}
-    </delete>
-    
+			<if test="RESERV_MODI != null and RESERV_MODI !='' "> RESERV_MODI = #{RESERV_MODI},</if>
+		</set>
+		WHERE RESERV_KEY = #{RESERV_KEY}
+	</update>
+
+	<delete id="Reserv.delete" parameterType="hashmap">
+		DELETE FROM y_reserv WHERE RESERV_KEY = #{RESERV_KEY}
+	</delete>
+
 </mapper>

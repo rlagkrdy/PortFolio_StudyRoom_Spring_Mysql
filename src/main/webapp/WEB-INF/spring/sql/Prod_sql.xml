@@ -9,7 +9,6 @@
         	IF(PROD_CATE = '1', '음료', '과자') AS PROD_CATE_NM,
 			DATE_FORMAT(PROD_CREATE, '%Y-%m-%d') AS PROD_CREATE_NM,
 			DATE_FORMAT(PROD_MODI, '%Y-%m-%d') AS PROD_MODI_NM
-        
         FROM y_prod
         <where>
         	<if test="PROD_KEY != null and PROD_KEY !='' "> AND PROD_KEY = #{PROD_KEY}</if>
@@ -27,6 +26,8 @@
 				AND DATE(PROD_CREATE) <![CDATA[<]]>=
 				#{PROD_CREATE_ED}
 			</if>
+			
+			<if test="KEYWORD != null and KEYWORD !='' ">AND PROD_NAME LIKE CONCAT(#{KEYWORD}, '%')</if>
         </where>
         ORDER BY PROD_KEY DESC
     </select>

@@ -4,11 +4,12 @@
 <mapper namespace="Usr">
 
 	<select id="Usr.list" resultType="hashmap" parameterType="hashmap">
-		SELECT *, 
+		SELECT usr.*, 
 			DATE_FORMAT(USR_CREATE, '%Y-%m-%d') AS USR_CREATE_NM,
-			DATE_FORMAT(USR_DELETE_DATE, '%Y-%m-%d') AS USR_DELETE_DATE_NM
-		FROM
-		y_usr
+			DATE_FORMAT(USR_DELETE_DATE, '%Y-%m-%d') AS USR_DELETE_DATE_NM,
+			IF(RESERV_TIME IS NULL, 0, RESERV_TIME) AS RESERV_TIME
+		FROM y_usr usr
+  		LEFT JOIN (SELECT USR_KEY, COUNT(*) AS RESERV_TIME FROM y_reserv GROUP BY COMP_KEY, USR_KEY) res ON res.USR_KEY = usr.USR_KEY
 		<where>
 			<if test="USR_KEY != null and USR_KEY !='' "> AND USR_KEY = #{USR_KEY}</if>
 			<if test="USR_ID != null and USR_ID !='' "> AND USR_ID = #{USR_ID}</if>
@@ -37,10 +38,23 @@
 	</select>
 
 	<select id="Usr.info" resultType="hashmap" parameterType="hashmap">
-		SELECT *,
+		SELECT usr.*, 
 			DATE_FORMAT(USR_CREATE, '%Y-%m-%d') AS USR_CREATE_NM,
-			DATE_FORMAT(USR_DELETE_DATE, '%Y-%m-%d') AS USR_DELETE_DATE_NM
-		FROM y_usr WHERE USR_KEY = #{USR_KEY}
+			DATE_FORMAT(USR_DELETE_DATE, '%Y-%m-%d') AS USR_DELETE_DATE_NM,
+			IF(RESERV_TIME IS NULL, 0, RESERV_TIME) AS RESERV_TIME,
+			SUM_PRICE
+		FROM y_usr usr
+  		LEFT JOIN (
+  			SELECT
+      			USR_KEY,
+		      	COUNT(*) AS RESERV_TIME,
+		      	SUM(ROOM_PRICE) AS SUM_PRICE
+    		FROM y_reserv re
+      		LEFT JOIN y_room rm ON rm.ROOM_KEY = re.ROOM_KEY
+		    WHERE USR_KEY = #{USR_KEY}
+		    GROUP BY rm.COMP_KEY
+  		) res ON res.USR_KEY = usr.USR_KEY
+		WHERE usr.USR_KEY = #{USR_KEY}
 	</select>
 
 	<insert id="Usr.insert" parameterType="hashmap">
