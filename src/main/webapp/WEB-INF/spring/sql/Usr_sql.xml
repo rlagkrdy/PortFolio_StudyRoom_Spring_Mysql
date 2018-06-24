@@ -42,7 +42,8 @@
 			DATE_FORMAT(USR_CREATE, '%Y-%m-%d') AS USR_CREATE_NM,
 			DATE_FORMAT(USR_DELETE_DATE, '%Y-%m-%d') AS USR_DELETE_DATE_NM,
 			IF(RESERV_TIME IS NULL, 0, RESERV_TIME) AS RESERV_TIME,
-			SUM_PRICE
+			SUM_PRICE,
+			me.*
 		FROM y_usr usr
   		LEFT JOIN (
   			SELECT
@@ -54,10 +55,14 @@
 		    WHERE USR_KEY = #{USR_KEY}
 		    GROUP BY rm.COMP_KEY
   		) res ON res.USR_KEY = usr.USR_KEY
+  		LEFT JOIN(
+			SELECT MEDIA_REF_KEY ,MEDIA_URL, MEDIA_WIDTH, MEDIA_HEIGHT FROM y_media
+			WHERE MEDIA_REF_KEY = #{USR_KEY} AND MEDIA_REF_CATE= 'USR_PROFILE'
+		) me ON me.MEDIA_REF_KEY = usr.USR_KEY
 		WHERE usr.USR_KEY = #{USR_KEY}
 	</select>
 
-	<insert id="Usr.insert" parameterType="hashmap">
+	<insert id="Usr.insert" parameterType="hashmap" useGeneratedKeys="true" keyProperty="USR_KEY">
 		INSERT INTO y_usr
 		<set>
 			USR_CREATE = NOW(),
