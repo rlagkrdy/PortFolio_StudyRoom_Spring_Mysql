@@ -10,6 +10,14 @@ Mybatis같은 sqlMapper가 없어 Spring으로 변경
 4. 에러 발생시 트랜스잭션 기능 추가
 5. oAuth구현 및 권한에 따른 보안기능 추가
 
+## Server Spec
+
+-   Model : Orange Pi Plus2
+-   OS: Debian8
+-   Cpu: H3 Quad-core Cortex-A7 H.265/HEVC 4K
+-   Memory: 2GB DDR3
+-   Storage: 32GB
+
 ## Licensing
 
 This software is licensed with the MIT license.
