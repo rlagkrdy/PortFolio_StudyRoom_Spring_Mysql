@@ -1,6 +1,7 @@
 package kr.co.hakyo.ctrl;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kr.co.hakyo.service.MediaService;
+import kr.co.hakyo.utils.ImageUtil;
 
 @Controller
 @RequestMapping("/media")
@@ -21,6 +24,8 @@ public class MediaController {
 	@Autowired
 	private MediaService mediaService;
 
+	@Autowired
+	private ImageUtil iu;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	@ResponseBody
@@ -53,19 +58,30 @@ public class MediaController {
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseBody
-	public int create(@RequestParam Map<String, Object> dataMap) {
+	public Map<String, Object> create(@RequestParam Map<String, Object> dataMap, MultipartHttpServletRequest request) {
 		try {
 			Map<String, Object> exist = new HashMap<String, Object>();
 			exist.put("media_KEY", dataMap.get("media_KEY"));
 			List<?> existList = mediaService.list(exist);
-			if(existList.size() > 0) {
-				return 0;
-			} else {
-				return mediaService.insert(dataMap);
+			
+			System.err.println(dataMap);
+			Iterator<String> fileName = request.getFileNames();
+			Map<String, Object> mediaMap = null;
+			while(fileName.hasNext()) {
+				String fileNames = fileName.next();
+				mediaMap = iu.imageUpload(request.getFile(fileNames), (long) 1, "USR_PROFILE");
+				System.err.println("mediaMap : " +mediaMap);
 			}
+			dataMap.put("default", mediaMap.get("MEDIA_URL"));
+			return dataMap;
+//			if(existList.size() > 0) {
+//				return 0;
+//			} else {
+//				return mediaService.insert(dataMap);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 	}
 

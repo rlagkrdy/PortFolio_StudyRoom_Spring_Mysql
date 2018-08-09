@@ -9,6 +9,8 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FilenameUtils;
+import org.im4java.core.ConvertCmd;
+import org.im4java.core.IMOperation;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,17 +22,22 @@ public class ImageUtil {
 		try {
 			String MEDIA_EXT = FilenameUtils.getExtension(file.getOriginalFilename());
 			String MEDIA_ORI_NAME = file.getName();
-			String MEDIA_NAME = UUID.randomUUID() + "." + MEDIA_EXT;
+			String randomNmae = UUID.randomUUID().toString();
+			String MEDIA_NAME = randomNmae + "." + MEDIA_EXT;
 
 			makeDir(Constants.directoryPath);
 
 			File path = new File(Constants.directoryPath, MEDIA_NAME);
+//			File path2 = new File(Constants.directoryPath+"/Test", randomNmae+".webp");
+//			this.ImageMagick(path, path2);
+			
+			
 			file.transferTo(path);
 			
 			int MEDIA_WIDTH = 0;
 			int MEIDA_HEIGHT= 0;
 			
-			BufferedImage image = ImageIO.read(new File(Constants.directoryPath, MEDIA_NAME));
+			BufferedImage image = ImageIO.read(path);
 			MEDIA_WIDTH = image.getWidth();
 			MEIDA_HEIGHT = image.getHeight();
 
@@ -43,6 +50,25 @@ public class ImageUtil {
 			return null;
 		}
 
+	}
+	
+	private void ImageMagick(File inputImage, File outputImage){
+		IMOperation op = new IMOperation();
+		op.addImage(inputImage.getAbsolutePath());
+		op.addImage(outputImage.getAbsolutePath());
+
+		String imageMagickPath = "D:/Program Files/ImageMagick";
+		ConvertCmd convert = new ConvertCmd();
+		convert.setSearchPath(imageMagickPath);
+		
+		System.err.println(convert.getSearchPath());
+		System.err.println(convert.getErrorText());
+		
+		try {
+			convert.run(op);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void makeDir(String directoryPath) {
