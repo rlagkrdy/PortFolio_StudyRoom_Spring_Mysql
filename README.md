@@ -21,6 +21,14 @@ Mybatis같은 sqlMapper가 없어 Spring으로 변경
 5. gradle로 변경
 6. prod, dev에 따른 Constants의 값 자동 할당
 
+## Server Spec
+
+-   Model : Orange Pi Plus2
+-   OS: Debian8
+-   Cpu: H3 Quad-core Cortex-A7 H.265/HEVC 4K
+-   Memory: 2GB DDR3
+-   Storage: 32GB
+
 ## Licensing
 This software is licensed with the MIT license.
 © 2018 Kevin Yo

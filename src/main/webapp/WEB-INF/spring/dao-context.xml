@@ -37,9 +37,9 @@
     <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://221.149.240.50:3306/studyroom" />
-		<property name="username" value="root" />
-		<property name="password" value="khy7942" />
+		<property name="url" value="jdbc:mysql://****/studyroom" />
+		<property name="username" value="****" />
+		<property name="password" value="****" />
 	</bean>
     
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
