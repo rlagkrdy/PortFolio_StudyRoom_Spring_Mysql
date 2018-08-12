@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import kr.co.hakyo.service.CompService;
 
 @Service
@@ -13,6 +13,9 @@ public class CompServiceImpl implements CompService {
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	public List<Map<String, Object>> list(Map<String, Object> dataMap) throws Exception {
 		return sqlSession.selectList("Comp.list", dataMap);
@@ -27,10 +30,18 @@ public class CompServiceImpl implements CompService {
 	}
 
 	public int insert(Map<String, Object> dataMap) throws Exception {
+		if(dataMap.get("COMP_PW") != null) {
+			dataMap.put("COMP_PW", passwordEncoder.encode(dataMap.get("COMP_PW").toString()));
+		}
 		return sqlSession.insert("Comp.insert", dataMap);
 	}
 
 	public int update(Map<String, Object> dataMap) throws Exception {
+		if(dataMap.get("COMP_PW") != null) {
+			System.err.println(dataMap.get("COMP_PW").toString());
+			System.err.println(passwordEncoder);
+			dataMap.put("COMP_PW", passwordEncoder.encode(dataMap.get("COMP_PW").toString()));
+		}
 		return sqlSession.update("Comp.update", dataMap);
 	}
 

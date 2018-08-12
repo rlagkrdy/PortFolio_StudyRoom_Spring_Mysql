@@ -24,7 +24,12 @@
 			<if test="COMP_MODI != null and COMP_MODI !='' "> AND COMP_MODI = #{COMP_MODI}</if>
 			
         </where>
-        ORDER BY comp_KEY DESC
+        ORDER BY COMP_KEY DESC
+    </select>
+    
+    <select id="Comp.findId" resultType="hashmap" parameterType="hashmap" >
+        SELECT * FROM y_comp
+		WHERE COMP_ID = #{id}
     </select>
     
     <select id="Comp.totalCount" resultType="hashmap" parameterType="hashmap" >
@@ -48,11 +53,11 @@
 			<if test="COMP_MODI != null and COMP_MODI !='' "> AND COMP_MODI = #{COMP_MODI}</if>
 			
         </where>
-        ORDER BY comp_KEY DESC
+        ORDER BY COMP_KEY DESC
     </select>
     
     <select id="Comp.info" resultType="hashmap" parameterType="hashmap" >
-        SELECT * FROM y_comp WHERE comp_KEY = #{comp_KEY}
+        SELECT * FROM y_comp WHERE COMP_KEY = #{COMP_KEY}
     </select>
     
     <insert id="Comp.insert" parameterType="hashmap" >
@@ -82,8 +87,8 @@
     		COMP_MODI = NOW(),
       		<if test="COMP_KEY != null and COMP_KEY !='' "> COMP_KEY = #{COMP_KEY},</if>
 			<if test="COMP_NAME != null and COMP_NAME !='' "> COMP_NAME = #{COMP_NAME},</if>
-			<if test="COMP_ID != null and COMP_ID !='' "> AND COMP_ID = #{COMP_ID}</if>
-			<if test="COMP_PW != null and COMP_PW !='' "> AND COMP_PW = #{COMP_PW}</if>
+			<if test="COMP_ID != null and COMP_ID !='' ">  COMP_ID = #{COMP_ID},</if>
+			<if test="COMP_PW != null and COMP_PW !='' ">  COMP_PW = #{COMP_PW},</if>
 			<if test="COMP_INTRO != null and COMP_INTRO !='' "> COMP_INTRO = #{COMP_INTRO},</if>
 			<if test="COMP_ADDR != null and COMP_ADDR !='' "> COMP_ADDR = #{COMP_ADDR},</if>
 			<if test="COMP_OADDR != null and COMP_OADDR !='' "> COMP_OADDR = #{COMP_OADDR},</if>
@@ -95,11 +100,11 @@
 			<if test="COMP_OPEN_TIME != null and COMP_OPEN_TIME !='' "> COMP_OPEN_TIME = #{COMP_OPEN_TIME},</if>
 			<if test="COMP_CLOSE_TIME != null and COMP_CLOSE_TIME !='' "> COMP_CLOSE_TIME = #{COMP_CLOSE_TIME},</if>
       	</set>	
-      	WHERE comp_KEY = #{comp_KEY}
+      	WHERE COMP_KEY = #{COMP_KEY}
     </update>
     
     <delete id="Comp.delete" parameterType="hashmap" >
-    	DELETE FROM y_comp WHERE comp_KEY = #{comp_KEY}
+    	DELETE FROM y_comp WHERE COMP_KEY = #{COMP_KEY}
     </delete>
     
 </mapper>

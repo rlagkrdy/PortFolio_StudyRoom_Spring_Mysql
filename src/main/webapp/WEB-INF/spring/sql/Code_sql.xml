@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Code">
+
+    <select id="Code.list" resultType="hashmap" parameterType="hashmap" >
+        SELECT * FROM y_code
+        <where>
+        	<if test="CODE_KEY != null and DEF_KEY !='' "> AND CODE_KEY = #{CODE_KEY}</if>
+			<if test="CODE_CATE != null and CODE_CATE !='' "> AND CODE_CATE = #{CODE_CATE}</if>
+			<if test="CODE_CATE_NAME != null and CODE_CATE_NAME !='' "> AND CODE_CATE_NAME = #{CODE_CATE_NAME}</if>
+			<if test="CODE_NAME != null and CODE_NAME !='' "> AND CODE_NAME = #{CODE_NAME}</if>
+			<if test="CODE_VALUE != null and CODE_VALUE !='' "> AND CODE_VALUE = #{CODE_VALUE}</if>
+        </where>
+        ORDER BY CODE_KEY DESC
+    </select>
+    
+    
+</mapper>

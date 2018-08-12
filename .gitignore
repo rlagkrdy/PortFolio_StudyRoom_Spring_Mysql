@@ -2,3 +2,4 @@
 /target
 /.classpath
 /.settings
+/src/main/webapp/resources/**
